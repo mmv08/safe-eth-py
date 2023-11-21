@@ -209,9 +209,11 @@ class SafeSignatureContract(SafeSignature):
 
     def is_valid(self, ethereum_client: EthereumClient, *args) -> bool:
         safe_contract = get_safe_V1_1_1_contract(ethereum_client.w3, self.owner)
+
         # Newest versions of the Safe contract have `isValidSignature` on the compatibility fallback handler
         for block_identifier in ("pending", "latest"):
             try:
+                print(safe_contract.functions.isValidSignature)
                 return safe_contract.functions.isValidSignature(
                     self.safe_tx_hash, self.contract_signature
                 ).call(block_identifier=block_identifier) in (

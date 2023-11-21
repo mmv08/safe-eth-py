@@ -11,7 +11,7 @@ from web3.types import BlockIdentifier, TxParams, Wei
 from gnosis.eth import EthereumClient
 from gnosis.eth.constants import NULL_ADDRESS
 from gnosis.eth.contracts import get_safe_contract
-from gnosis.eth.eip712 import eip712_encode_hash
+from gnosis.eth.eip712 import eip712_encode, eip712_encode_hash
 from gnosis.eth.ethereum_client import TxSpeed
 
 from .exceptions import (
@@ -186,6 +186,10 @@ class SafeTx:
     @property
     def safe_tx_hash(self) -> HexBytes:
         return HexBytes(eip712_encode_hash(self.eip712_structured_data))
+
+    @property
+    def encoded_eip712_transaction_data(self) -> HexBytes:
+        return HexBytes(b"".join(eip712_encode(self.eip712_structured_data)))
 
     @property
     def signers(self) -> List[str]:

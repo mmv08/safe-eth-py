@@ -400,3 +400,25 @@ class TestSafeTx(SafeTestCaseMixin, TestCase):
             safe_nonce,
         ).call()
         self.assertEqual(HexBytes(expected_hash), safe_tx_hash)
+
+    def test_encoded_eip712_transaction_data(self):
+        # -------- Old version of the contract --------------------------
+        expected_data = HexBytes(
+            "0xc9d69a2350aede7978fdee58e702647e4bbdc82168577aa4a43b66ad815c6d1a"
+        )
+        eip712_encoded_data = SafeTx(
+            self.ethereum_client,
+            "0x692a70d2e424a56d2c6c27aa97d1a86395877b3a",
+            "0x5AC255889882aaB35A2aa939679E3F3d4Cea221E",
+            5000000,
+            HexBytes("0x00"),
+            0,
+            50000,
+            100,
+            10000,
+            "0x" + "0" * 40,
+            "0x" + "0" * 40,
+            safe_nonce=67,
+            safe_version="0.1.0",
+        ).encoded_eip712_transaction_data
+        self.assertEqual(eip712_encoded_data, expected_data)

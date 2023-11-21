@@ -1,10 +1,10 @@
 #!/bin/sh
 # Postgresql and ganache-cli must be running for the tests
 
-ps aux | grep ganache-cli | grep -v grep > /dev/null
+ps aux | grep ganache | grep -v grep > /dev/null
 if [ $? -eq 1 ]; then
     echo 'Running Ganache-Cli'
-    ganache-cli --defaultBalanceEther 10000 --gasLimit 10000000 -a 30 --chain.chainId 1337 --chain.networkId 1337 -d > /dev/null &
+    npx ganache --defaultBalanceEther 10000 --gasLimit 10000000 -a 30 --chain.chainId 1337 --chain.networkId 1337 -d > /dev/null &
     GANACHE_PID=$!
     sleep 3
 fi
